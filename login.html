@@ -1,318 +1,242 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-
-    <title>Rama Tecnical Degree College</title>
-    <link rel="icon" href="img/RTDC_LOGO.png" type="image/svg+xml">
-     <!-- CDN Link For Icon -->
-     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+<head>
+    <meta charset="UTF-8">
+    <title>Animated Login Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {
-            font-family: Arial, sans-serif;
             margin: 0;
-            padding: 0;
-        }
-        nav {
-            background: #007bff;
-            padding: 1em;
+            min-height: 100vh;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: center;
+            animation: bgmove 10s infinite alternate;
         }
-        .nav-links {
-            display: flex;
-            gap: 1em;
-        }
-        .nav-links a {
-            color: #fff;
-            text-decoration: none;
-            font-weight: bold;
-        }
-        .login-btn {
-            background: #fff;
-            color: #007bff;
-            border: none;
-            padding: 0.5em 1em;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: bold;
-            margin-left: 0.5em;
-        }
-        .login-btn:hover {
-            background: #e0e0e0;
+        @keyframes bgmove {
+            0% {background-position: left;}
+            100% {background-position: right;}
         }
         .container {
-            padding: 2em;
+            background: rgba(255,255,255,0.85);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            padding: 40px 30px;
+            width: 350px;
+            position: relative;
+            overflow: hidden;
+            animation: popin 1s;
+        }
+        @keyframes popin {
+            0% {transform: scale(0.7);}
+            100% {transform: scale(1);}
+        }
+        h2 {
             text-align: center;
+            color: #ff6f91;
+            margin-bottom: 30px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            animation: colorchange 2s infinite alternate;
         }
-        .login-buttons {
+        @keyframes colorchange {
+            0% {color: #ff6f91;}
+            100% {color: #845ec2;}
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #845ec2;
+            font-weight: 500;
+        }
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 18px;
+            border: 1px solid #d1d1d1;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border 0.3s;
+        }
+        input[type="text"]:focus, input[type="password"]:focus {
+            border: 1.5px solid #ff6f91;
+            outline: none;
+        }
+        .remember {
             display: flex;
-            gap: 0.5em;
+            align-items: center;
+            margin-bottom: 18px;
         }
-        body {
-        background: linear-gradient(135deg, #6dd5ed, #2193b0, #f7797d);
-        min-height: 100vh;
-        margin: 0;
-        padding: 0;
-        font-family: 'Segoe UI', Arial, sans-serif;
-        animation: gradientBG 10s ease infinite;
-      }
-      @keyframes gradientBG {
-        0% {background-position: 0% 50%;}
-        50% {background-position: 100% 50%;}
-        100% {background-position: 0% 50%;}
-      }
-      .login-container {
-        max-width: 400px;
-        margin: 80px auto;
-        background: rgba(255,255,255,0.95);
-        border-radius: 20px;
-        box-shadow: 0 8px 32px 0 rgba(31,38,135,0.37);
-        padding: 40px 30px 30px 30px;
-        position: relative;
-        animation: fadeIn 1.2s;
-      }
-      @keyframes fadeIn {
-        from {opacity: 0; transform: translateY(-40px);}
-        to {opacity: 1; transform: translateY(0);}
-      }
-      .login-title {
-        font-size: 2rem;
-        font-weight: bold;
-        color: #2193b0;
-        margin-bottom: 20px;
-        text-align: center;
-        letter-spacing: 1px;
-      }
-      .form-control {
-        border-radius: 10px;
-        margin-bottom: 18px;
-        font-size: 1.1em;
-      }
-      .form-check-label {
-        font-size: 1em;
-        color: #2193b0;
-      }
-      .btn-login {
-        width: 100%;
-        background: linear-gradient(90deg, #2193b0 0%, #6dd5ed 100%);
-        color: #fff;
-        font-weight: bold;
-        border: none;
-        border-radius: 10px;
-        padding: 10px 0;
-        font-size: 1.1em;
-        box-shadow: 0 4px 14px rgba(33,147,176,0.2);
-        transition: background 0.3s;
-      }
-      .btn-login:hover {
-        background: linear-gradient(90deg, #f7797d 0%, #6dd5ed 100%);
-        color: #fff;
-      }
-      .animated-icon {
-        font-size: 2.5em;
-        color: #f7797d;
-        animation: bounce 1.5s infinite;
-        display: block;
-        text-align: center;
-        margin-bottom: 10px;
-      }
-      @keyframes bounce {
-        0%, 100% {transform: translateY(0);}
-        50% {transform: translateY(-10px);}
-      }
-      .error-msg {
-        color: #f7797d;
-        text-align: center;
-        margin-bottom: 10px;
-        font-weight: bold;
-        display: none;
-      }
+        .remember input {
+            margin-right: 8px;
+        }
+        .btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(90deg, #ff6f91 0%, #845ec2 100%);
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 10px;
+            transition: background 0.3s;
+            box-shadow: 0 2px 8px rgba(132,94,194,0.15);
+        }
+        .btn:hover {
+            background: linear-gradient(90deg, #845ec2 0%, #ff6f91 100%);
+        }
+        .change-btn {
+            background: linear-gradient(90deg, #f9f871 0%, #ff6f91 100%);
+            color: #845ec2;
+            margin-bottom: 0;
+        }
+        .error {
+            color: #ff1744;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 15px;
+            animation: shake 0.3s;
+        }
+        @keyframes shake {
+            0% {transform: translateX(0);}
+            25% {transform: translateX(-5px);}
+            50% {transform: translateX(5px);}
+            75% {transform: translateX(-5px);}
+            100% {transform: translateX(0);}
+        }
+        .success {
+            color: #43ea7c;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 15px;
+        }
+        .hidden {
+            display: none;
+        }
+        .change-form {
+            animation: popin 0.5s;
+        }
     </style>
-  </head>
-  <body>
-   
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-
-     <nav>
-        <div class="nav-links">
-            <a href="index.html"><i class="bi bi-house-fill"></i> Home</a>
-            <a href="about.html"><i class="bi bi-file-person"></i> About Us</a>
-            <a href="Course.html"> <i class="bi bi-book"></i> Our Courses</a>
-            <a href="contact.html"> <i class="bi bi-person-lines-fill"></i> Contact Us</a>
-            <a href="Test.html"> <i class="bi bi-person-lines-fill"></i> Online Test</a>
-             <span class="nav-links" style="color: white; font-weight: 700;"><i class="bi bi-telephone"></i> +91 9118825965, +91 9026495898</span>
-        </div>
-        <div class="login-buttons">
-            <a href="login.html"><button class="login-btn">Faculty Login</button></a>
-             <a href="Regi.html"><button class="login-btn">New Registration</button></a>
-            <a href="Student.html"><button class="login-btn">Student Login</button></a>
-        </div>
-    </nav>
-   
-    
-    <div class="login-container">
-      <div class="animated-icon">
-        <i class="bi bi-person-circle"></i>
-      </div>
-      <div class="login-title">Faculty Login</div>
-      <div id="error" class="error-msg"></div>
-      <form id="loginForm" autocomplete="off">
-        <input type="text" class="form-control" id="username" placeholder="User ID" required>
-        <input type="password" class="form-control" id="password" placeholder="Password" required>
-        <div class="form-check mb-3">
-          <input class="form-check-input" type="checkbox" id="rememberMe">
-          <label class="form-check-label" for="rememberMe">
-            Remember Me
-          </label>
-        </div>
-        <button type="submit" class="btn-login">Submit</button>
-      </form>
+</head>
+<body>
+    <div class="container" id="login-container">
+        <h2>Login</h2>
+        <div id="message"></div>
+        <form id="login-form">
+            <label for="username">Username</label>
+            <input type="text" id="username" autocomplete="username" required>
+            <label for="password">Password</label>
+            <input type="password" id="password" autocomplete="current-password" required>
+            <div class="remember">
+                <input type="checkbox" id="remember">
+                <label for="remember" style="margin-bottom:0;">Remember me</label>
+            </div>
+            <button type="submit" class="btn">Submit</button>
+        </form>
+        <button class="btn change-btn" id="change-btn" type="button">Change Username or Password</button>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.js"></script>
+
+    <div class="container hidden" id="change-container">
+        <h2>Change Credentials</h2>
+        <div id="change-message"></div>
+        <form id="change-form" class="change-form">
+            <label for="old-username">Old Username</label>
+            <input type="text" id="old-username" required>
+            <label for="old-password">Old Password</label>
+            <input type="password" id="old-password" required>
+            <label for="new-username">New Username</label>
+            <input type="text" id="new-username" required>
+            <label for="new-password">New Password</label>
+            <input type="password" id="new-password" required>
+            <button type="submit" class="btn">Change</button>
+            <button type="button" class="btn change-btn" id="back-btn">Back to Login</button>
+        </form>
+    </div>
+    <!-- After successful login, a link to 'welcome.html' is shown via JavaScript above. 
+    If you want a static link always visible, add below: -->
+    <a href="form.html" id="welcome-link" style="display:none;">Go to Welcome Page</a>
+
     <script>
-      document.getElementById('loginForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        const username = document.getElementById('username').value.trim();
-        const password = document.getElementById('password').value.trim();
-        const errorDiv = document.getElementById('error');
-        if(username === "Pappu" && password === "1133") {
-          window.location.href = "welcome.html"; // Change to your desired page
-        } else {
-          errorDiv.textContent = "Invalid User ID or Password!";
-          errorDiv.style.display = "block";
+        // Default credentials
+        let credentials = JSON.parse(localStorage.getItem('loginCreds')) || {username: 'pappu', password: '5522'};
+        // Remembered credentials
+        if(localStorage.getItem('remembered')) {
+            document.getElementById('username').value = credentials.username;
+            document.getElementById('password').value = credentials.password;
+            document.getElementById('remember').checked = true;
         }
-      });
-      const defaultCredentials = { userId: "Pappu", password: "1133" };
-      let credentials = { ...defaultCredentials };
 
-      // Add Change User ID/Password button below the form
-      const changeBtn = document.createElement('button');
-      changeBtn.textContent = "Change User ID/Password";
-      changeBtn.type = "button";
-      changeBtn.className = "btn-login mt-2";
-      document.querySelector('.login-container').appendChild(changeBtn);
+        // Login form submit
+        document.getElementById('login-form').onsubmit = function(e) {
+            e.preventDefault();
+            const uname = document.getElementById('username').value;
+            const pwd = document.getElementById('password').value;
+            const remember = document.getElementById('remember').checked;
+            if(uname === credentials.username && pwd === credentials.password) {
+                document.getElementById('message').innerHTML = '<div class="success">Login successful!</div>';
+                if(remember) {
+                    localStorage.setItem('remembered', '1');
+                    localStorage.setItem('loginCreds', JSON.stringify(credentials));
+                } else {
+                    localStorage.removeItem('remembered');
+                }
+                // Redirect via anchor tag
+                setTimeout(function(){
+                    let a = document.createElement('a');
+                    a.href = 'form.html'; // Change to your file
+                    a.innerText = 'Go to Welcome Page';
+                    a.style.display = 'block';
+                    a.style.textAlign = 'center';
+                    a.style.marginTop = '20px';
+                    document.getElementById('message').appendChild(a);
+                }, 800);
+            } else {
+                document.getElementById('message').innerHTML = '<div class="error">Invalid username or password!</div>';
+            }
+        };
 
-      // Modal HTML for change credentials
-      const modalHtml = `
-      <div class="modal fade" id="changeModal" tabindex="-1">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <form id="changeForm" autocomplete="off">
-              <div class="modal-header">
-                <h5 class="modal-title">Change User ID or Password</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-              </div>
-              <div class="modal-body">
-                <div id="changeError" class="error-msg" style="display:none;"></div>
-                <input type="text" class="form-control mb-2" id="oldUserId" placeholder="Old User ID" required>
-                <input type="password" class="form-control mb-2" id="oldPassword" placeholder="Old Password" required>
-                <input type="text" class="form-control mb-2" id="newUserId" placeholder="New User ID" required>
-                <input type="password" class="form-control mb-2" id="newPassword" placeholder="New Password" required>
-              </div>
-              <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Change</button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-      `;
-      document.body.insertAdjacentHTML('beforeend', modalHtml);
+        // Change credentials button
+        document.getElementById('change-btn').onclick = function() {
+            document.getElementById('login-container').classList.add('hidden');
+            document.getElementById('change-container').classList.remove('hidden');
+            document.getElementById('change-message').innerHTML = '';
+            document.getElementById('change-form').reset();
+        };
 
-      // Show modal on button click
-      changeBtn.addEventListener('click', () => {
-        const modal = new bootstrap.Modal(document.getElementById('changeModal'));
-        document.getElementById('changeForm').reset();
-        document.getElementById('changeError').style.display = "none";
-        modal.show();
-      });
+        // Back to login
+        document.getElementById('back-btn').onclick = function() {
+            document.getElementById('change-container').classList.add('hidden');
+            document.getElementById('login-container').classList.remove('hidden');
+            document.getElementById('message').innerHTML = '';
+        };
 
-      // Handle change credentials form
-      document.getElementById('changeForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        const oldUserId = document.getElementById('oldUserId').value.trim();
-        const oldPassword = document.getElementById('oldPassword').value.trim();
-        const newUserId = document.getElementById('newUserId').value.trim();
-        const newPassword = document.getElementById('newPassword').value.trim();
-        const errorDiv = document.getElementById('changeError');
-
-        if (oldUserId === credentials.userId && oldPassword === credentials.password) {
-          credentials.userId = newUserId;
-          credentials.password = newPassword;
-          errorDiv.style.display = "none";
-          bootstrap.Modal.getInstance(document.getElementById('changeModal')).hide();
-          alert("User ID and Password changed successfully!");
-        } else {
-          errorDiv.textContent = "Old User ID or Password is incorrect!";
-          errorDiv.style.display = "block";
-        }
-      });
-
-      // Update login validation to use new credentials
-      document.getElementById('loginForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        const username = document.getElementById('username').value.trim();
-        const password = document.getElementById('password').value.trim();
-        const errorDiv = document.getElementById('error');
-        if(username === credentials.userId && password === credentials.password) {
-          window.location.href = "welcome.html";
-        } else {
-          errorDiv.textContent = "Invalid User ID or Password!";
-          errorDiv.style.display = "block";
-        }
-      });
+        // Change credentials form submit
+        document.getElementById('change-form').onsubmit = function(e) {
+            e.preventDefault();
+            const oldU = document.getElementById('old-username').value;
+            const oldP = document.getElementById('old-password').value;
+            const newU = document.getElementById('new-username').value;
+            const newP = document.getElementById('new-password').value;
+            if(oldU === credentials.username && oldP === credentials.password) {
+                credentials.username = newU;
+                credentials.password = newP;
+                localStorage.setItem('loginCreds', JSON.stringify(credentials));
+                document.getElementById('change-message').innerHTML = '<div class="success">Credentials changed successfully!</div>';
+                setTimeout(function(){
+                    document.getElementById('change-container').classList.add('hidden');
+                    document.getElementById('login-container').classList.remove('hidden');
+                    document.getElementById('message').innerHTML = '';
+                    document.getElementById('username').value = newU;
+                    document.getElementById('password').value = newP;
+                }, 1200);
+            } else {
+                document.getElementById('change-message').innerHTML = '<div class="error">Old username or password incorrect!</div>';
+            }
+        };
     </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <footer style="background: #222; color: #fff; padding: 40px 0 20px 0; margin-top: 40px;">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-6 mb-3">
-          <h4>RAMA TECHNICAL DEGREE COLLEGE</h4>
-          <p>
-            Registered under Society Act 21, 1860 of U.P Govt.<br>
-            Copyrights by Indian Government.<br>
-            QMS ISO 9001-2015 Certified.
-          </p>
-        </div>
-        <div class="col-md-6 mb-3">
-          <h5>Contact Us</h5>
-          <p>
-            <i class="bi bi-geo-alt"></i> Near Naurangiya Chauraha, Padrauna Road, Kushinagar, Uttar Pradesh, India<br>
-            <i class="bi bi-telephone"></i> +91 9118825965, +91 9026495898<br>
-            <i class="bi bi-envelope"></i> pappu012023@gmail.com
-          </p>
-        </div>
-      </div>
-      <div class="text-center mt-3">
-        <button onclick="window.scrollTo({top:0,behavior:'smooth'});" class="btn btn-light" style="color: #222; font-weight: bold;">
-          <i class="bi bi-arrow-up-circle"></i> Top
-        </button>
-      </div>
-      <div class="text-center mt-3" style="font-size: 0.95em;">
-        &copy; 2024 RAMA TECHNICAL DEGREE COLLEGE. All rights reserved.
-      </div>
-    </div>
-  </footer>
-  </body>
-</html>
+</body>
+</html></form></div>
