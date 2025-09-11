@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Registration Form</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            background: linear-gradient(135deg, #6dd5ed, #2193b0, #f7971e, #ffd200);
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+            padding: 32px 40px;
+        }
+        h2 {
+            text-align: center;
+            color: #2193b0;
+            margin-bottom: 24px;
+            letter-spacing: 1px;
+        }
+        form label {
+            font-weight: 500;
+            color: #333;
+        }
+        .form-row {
+            display: flex;
+            gap: 24px;
+            margin-bottom: 18px;
+        }
+        .form-group {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        input, select, textarea {
+            padding: 8px 10px;
+            border-radius: 6px;
+            border: 1px solid #bdbdbd;
+            margin-top: 6px;
+            font-size: 1rem;
+        }
+        input[type="date"] {
+            min-width: 120px;
+        }
+        input[type="file"] {
+            border: none;
+        }
+        .photo-preview, .aadhar-preview {
+            margin-top: 8px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            display: block;
+        }
+        .photo-preview {
+            width: 120px;
+            height: 150px;
+            object-fit: cover;
+        }
+        .aadhar-preview {
+            width: 3.5in;
+            height: 2.5in;
+            object-fit: cover;
+        }
+        .btn-row {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-top: 24px;
+        }
+        button {
+            padding: 10px 28px;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+        .reset-btn {
+            background: #f44336;
+            color: #fff;
+        }
+        .submit-btn {
+            background: #2193b0;
+            color: #fff;
+        }
+        .print-btn {
+            background: #ffd200;
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 40px;
+            background: #fafafa;
+        }
+        th, td {
+            border: 1px solid #bdbdbd;
+            padding: 8px 10px;
+            text-align: center;
+        }
+        th {
+            background: #2193b0;
+            color: #fff;
+        }
+        .action-btn {
+            padding: 4px 12px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            margin: 0 2px;
+        }
+        .edit-btn { background: #4caf50; color: #fff; }
+        .delete-btn { background: #f44336; color: #fff; }
+        @media (max-width: 700px) {
+            .container { padding: 16px 8px; }
+            .form-row { flex-direction: column; gap: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Student Registration Form</h2>
+        <form id="registrationForm" autocomplete="off">
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Registration No.</label>
+                    <input type="text" id="regNo" name="regNo" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Title</label>
+                    <select name="title" required>
+                        <option value="">Select</option>
+                        <option value="Mr.">Mr.</option>
+                        <option value="Ms.">Ms.</option>
+                        <option value="Mrs.">Mrs.</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>STD Name</label>
+                    <input type="text" name="stdName" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Father's Name</label>
+                    <input type="text" name="fatherName" required>
+                </div>
+                <div class="form-group">
+                    <label>Mother's Name</label>
+                    <input type="text" name="motherName" required>
+                </div>
+                <div class="form-group">
+                    <label>Date of Birth</label>
+                    <input type="date" name="dob" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Mobile Number</label>
+                    <input type="tel" name="mobile" pattern="[0-9]{10}" required>
+                </div>
+                <div class="form-group">
+                    <label>Pin Code</label>
+                    <input type="text" name="pincode" pattern="[0-9]{6}" required>
+                </div>
+                <div class="form-group">
+                    <label>Address</label>
+                    <textarea name="address" rows="2" required></textarea>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>High Education</label>
+                    <select name="education" required>
+                        <option value="">Select</option>
+                        <option value="10th">10th</option>
+                        <option value="12th">12th</option>
+                        <option value="Graduate">Graduate</option>
+                        <option value="Post Graduate">Post Graduate</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Course</label>
+                    <select name="course" required>
+                        <option value="">Select</option>
+                        <option>OM</option>
+                        <option>CCC</option>
+                        <option>DFA</option>
+                        <option>DCA</option>
+                        <option>ADFA</option>
+                        <option>ADCA</option>
+                        <option>O Level</option>
+                        <option>Tally Prime</option>
+                        <option>MS Excel</option>
+                        <option>MS Office</option>
+                        <option>DTP</option>
+                        <option>Busy</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Addmission Date</label>
+                    <input type="date" name="admissionDate" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Photo (Passport Size)</label>
+                    <input type="file" name="photo" accept="image/*" id="photoInput" required>
+                    <img id="photoPreview" class="photo-preview" src="" alt="Photo Preview" style="display:none;">
+                </div>
+                <div class="form-group">
+                    <label>Aadhar (3.5in x 2.5in)</label>
+                    <input type="file" name="aadhar" accept="image/*" id="aadharInput" required>
+                    <img id="aadharPreview" class="aadhar-preview" src="" alt="Aadhar Preview" style="display:none;">
+                </div>
+            </div>
+            <div class="btn-row">
+                <button type="reset" class="reset-btn">Reset</button>
+                <button type="submit" class="submit-btn">Submit</button>
+                <button type="button" class="print-btn" onclick="window.print()">Print</button>
+            </div>
+        </form>
+        <table id="dataTable">
+            <thead>
+                <tr>
+                    <th>Reg. No.</th>
+                    <th>Title</th>
+                    <th>STD Name</th>
+                    <th>Father's Name</th>
+                    <th>Mother's Name</th>
+                    <th>DOB</th>
+                    <th>Mobile</th>
+                    <th>Pin</th>
+                    <th>Address</th>
+                    <th>Education</th>
+                    <th>Course</th>
+                    <th>Admission Date</th>
+                    <th>Photo</th>
+                    <th>Aadhar</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Data rows will appear here -->
+            </tbody>
+        </table>
+    </div>
+    <script>
+        // Registration number auto-increment logic
+        function getNextRegNo() {
+            let data = JSON.parse(localStorage.getItem('students') || '[]');
+            if (data.length === 0) return 'NK1000';
+            let last = data[data.length - 1].regNo;
+            let num = parseInt(last.replace('NK', '')) + 1;
+            return 'NK' + num;
+        }
+        document.getElementById('regNo').value = getNextRegNo();
+
+        // Photo preview
+        document.getElementById('photoInput').addEventListener('change', function(e) {
+            let file = e.target.files[0];
+            let preview = document.getElementById('photoPreview');
+            if (file) {
+                let reader = new FileReader();
+                reader.onload = function(ev) {
+                    preview.src = ev.target.result;
+                    preview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                preview.src = '';
+                preview.style.display = 'none';
+            }
+        });
+
+        // Aadhar preview
+        document.getElementById('aadharInput').addEventListener('change', function(e) {
+            let file = e.target.files[0];
+            let preview = document.getElementById('aadharPreview');
+            if (file) {
+                let reader = new FileReader();
+                reader.onload = function(ev) {
+                    preview.src = ev.target.result;
+                    preview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                preview.src = '';
+                preview.style.display = 'none';
+            }
+        });
+
+        // Reset preview on form reset
+        document.getElementById('registrationForm').addEventListener('reset', function() {
+            document.getElementById('photoPreview').src = '';
+            document.getElementById('photoPreview').style.display = 'none';
+            document.getElementById('aadharPreview').src = '';
+            document.getElementById('aadharPreview').style.display = 'none';
+            setTimeout(() => {
+                document.getElementById('regNo').value = getNextRegNo();
+            }, 50);
+        });
+
+        // Load table data from localStorage
+        function loadTable() {
+            let data = JSON.parse(localStorage.getItem('students') || '[]');
+            let tbody = document.querySelector('#dataTable tbody');
+            tbody.innerHTML = '';
+            data.forEach((row, idx) => {
+                let tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${row.regNo}</td>
+                    <td>${row.title}</td>
+                    <td>${row.stdName}</td>
+                    <td>${row.fatherName}</td>
+                    <td>${row.motherName}</td>
+                    <td>${row.dob}</td>
+                    <td>${row.mobile}</td>
+                    <td>${row.pincode}</td>
+                    <td>${row.address}</td>
+                    <td>${row.education}</td>
+                    <td>${row.course}</td>
+                    <td>${row.admissionDate}</td>
+                    <td><img src="${row.photo}" style="width:40px;height:50px;border-radius:4px;"></td>
+                    <td><img src="${row.aadhar}" style="width:35px;height:25px;border-radius:4px;"></td>
+                    <td>
+                        <button class="action-btn edit-btn" onclick="editRow(${idx})">Edit</button>
+                        <button class="action-btn delete-btn" onclick="deleteRow(${idx})">Delete</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+        loadTable();
+
+        // Form submit handler
+        document.getElementById('registrationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            let form = e.target;
+            let photoFile = form.photo.files[0];
+            let aadharFile = form.aadhar.files[0];
+            let reader1 = new FileReader();
+            let reader2 = new FileReader();
+
+            reader1.onload = function(ev1) {
+                reader2.onload = function(ev2) {
+                    let student = {
+                        regNo: form.regNo.value,
+                        title: form.title.value,
+                        stdName: form.stdName.value,
+                        fatherName: form.fatherName.value,
+                        motherName: form.motherName.value,
+                        dob: form.dob.value,
+                        mobile: form.mobile.value,
+                        pincode: form.pincode.value,
+                        address: form.address.value,
+                        education: form.education.value,
+                        course: form.course.value,
+                        admissionDate: form.admissionDate.value,
+                        photo: ev1.target.result,
+                        aadhar: ev2.target.result
+                    };
+                    let data = JSON.parse(localStorage.getItem('students') || '[]');
+                    if (form.dataset.editIdx) {
+                        data[form.dataset.editIdx] = student;
+                        delete form.dataset.editIdx;
+                    } else {
+                        data.push(student);
+                    }
+                    localStorage.setItem('students', JSON.stringify(data));
+                    loadTable();
+                    form.reset();
+                    alert('Form submitted successfully!');
+                };
+                reader2.readAsDataURL(aadharFile);
+            };
+            reader1.readAsDataURL(photoFile);
+        });
+
+        // Edit row
+        window.editRow = function(idx) {
+            let data = JSON.parse(localStorage.getItem('students') || '[]');
+            let row = data[idx];
+            let form = document.getElementById('registrationForm');
+            form.regNo.value = row.regNo;
+            form.title.value = row.title;
+            form.stdName.value = row.stdName;
+            form.fatherName.value = row.fatherName;
+            form.motherName.value = row.motherName;
+            form.dob.value = row.dob;
+            form.mobile.value = row.mobile;
+            form.pincode.value = row.pincode;
+            form.address.value = row.address;
+            form.education.value = row.education;
+            form.course.value = row.course;
+            form.admissionDate.value = row.admissionDate;
+            document.getElementById('photoPreview').src = row.photo;
+            document.getElementById('photoPreview').style.display = 'block';
+            document.getElementById('aadharPreview').src = row.aadhar;
+            document.getElementById('aadharPreview').style.display = 'block';
+            form.dataset.editIdx = idx;
+            window.scrollTo({top:0, behavior:'smooth'});
+        };
+
+        // Delete row
+        window.deleteRow = function(idx) {
+            if (confirm('Are you sure to delete this record?')) {
+                let data = JSON.parse(localStorage.getItem('students') || '[]');
+                data.splice(idx, 1);
+                localStorage.setItem('students', JSON.stringify(data));
+                loadTable();
+            }
+        };
+
+
+
+      
+        </script>
+</body>
+</html>
