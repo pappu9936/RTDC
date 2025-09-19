@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <title>Login Page</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .container {
+      background: #fff;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0px 10px 25px rgba(0,0,0,0.2);
+      width: 350px;
+      text-align: center;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    input {
+      width: 90%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      outline: none;
+      transition: 0.3s;
+    }
+
+    input:focus {
+      border-color: #667eea;
+      box-shadow: 0 0 8px #667eea;
+    }
+
+    button {
+      width: 95%;
+      padding: 12px;
+      margin: 15px 0;
+      border: none;
+      border-radius: 8px;
+      background: #667eea;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #764ba2;
+      transform: scale(1.05);
+    }
+
+    .link {
+      color: #667eea;
+      cursor: pointer;
+      text-decoration: underline;
+      font-size: 14px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: scale(0.8);}
+      to {opacity: 1; transform: scale(1);}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Login</h2>
+    <div id="loginForm">
+      <input type="text" id="userId" placeholder="User ID">
+      <input type="password" id="password" placeholder="Password">
+      <button onclick="login()">Submit</button>
+      <p class="link" onclick="showChangeForm()">Change User ID & Password</p>
+    </div>
+
+    <div id="changeForm" class="hidden">
+      <h2>Change Credentials</h2>
+      <input type="text" id="oldUserId" placeholder="Old User ID">
+      <input type="password" id="oldPassword" placeholder="Old Password">
+      <input type="text" id="newUserId" placeholder="New User ID">
+      <input type="password" id="newPassword" placeholder="New Password">
+      <button onclick="changeCredentials()">Update</button>
+      <p class="link" onclick="showLoginForm()">Back to Login</p>
+    </div>
+  </div>
+
+  <script>
+    // Default credentials
+    let userId = "Admin";
+    let password = "12345";
+
+    function login() {
+      let enteredId = document.getElementById("userId").value;
+      let enteredPass = document.getElementById("password").value;
+
+      if (enteredId === userId && enteredPass === password) {
+        alert("Login Successful!");
+        window.location.href ="Regi.html"; // Redirect to another page
+      } else {
+        alert("Invalid User ID or Password!");
+      }
+    }
+
+    function showChangeForm() {
+      document.getElementById("loginForm").classList.add("hidden");
+      document.getElementById("changeForm").classList.remove("hidden");
+    }
+
+    function showLoginForm() {
+      document.getElementById("changeForm").classList.add("hidden");
+      document.getElementById("loginForm").classList.remove("hidden");
+    }
+
+    function changeCredentials() {
+      let oldId = document.getElementById("oldUserId").value;
+      let oldPass = document.getElementById("oldPassword").value;
+      let newId = document.getElementById("newUserId").value;
+      let newPass = document.getElementById("newPassword").value;
+
+      if (oldId === userId && oldPass === password) {
+        if(newId && newPass){
+          userId = newId;
+          password = newPass;
+          alert("User ID and Password changed successfully!");
+          showLoginForm();
+        } else {
+          alert("Please enter new User ID and Password!");
+        }
+      } else {
+        alert("Old User ID or Password is incorrect!");
+      }
+    }
+  </script>
+</body>
+</html>
