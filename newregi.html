@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Interactive Student Registration</title>
+<title>Student Registration (Firebase)</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 <style>
@@ -20,7 +20,7 @@ img { max-width:50px; max-height:50px; border-radius:5px; }
 </head>
 <body>
 <div class="container">
-  <h2>Interactive Student Registration</h2>
+  <h2>Student Registration (Firebase)</h2>
 
   <!-- Registration Form -->
   <form id="regForm" class="bg-white p-4 rounded shadow-sm mb-4">
@@ -105,19 +105,34 @@ img { max-width:50px; max-height:50px; border-radius:5px; }
   </div>
 </div>
 
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
 <script>
-let editIndex=-1, currentPage=1, rowsPerPage=10, filteredData=[];
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+  databaseURL: "https://YOUR_PROJECT_ID-default-rtdb.firebaseio.com",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_PROJECT_ID.appspot.com",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId: "YOUR_APP_ID"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
+let editId=null, currentPage=1, rowsPerPage=10, filteredData=[];
 
 function generateRegNo(){
-  let data=JSON.parse(localStorage.getItem("students"))||[];
-  return data.length===0?"NK1000":"NK"+(parseInt(data[data.length-1].regNo.replace("NK",""))+1);
+  return "NK" + (new Date().getTime() % 100000);
 }
 
 // Init form
 document.getElementById("regNo").value = generateRegNo();
 document.getElementById("admissionDate").valueAsDate = new Date();
 
-// Submit
+// Submit form
 document.getElementById("regForm").addEventListener("submit", function(e){
   e.preventDefault();
   let regNo = document.getElementById("regNo").value;
@@ -128,120 +143,138 @@ document.getElementById("regForm").addEventListener("submit", function(e){
   let photoFile = document.getElementById("photo").files[0];
   if(photoFile){
     let reader = new FileReader();
-    reader.onload = function(){ saveStudent(reader.result); }
+    reader.onload = function(){ student.photo = reader.result; saveToFirebase(student); }
     reader.readAsDataURL(photoFile);
-  } else saveStudent('');
+  } else saveToFirebase(student);
 
-  function saveStudent(photo){
-    student.photo = photo;
-    let data = JSON.parse(localStorage.getItem("students")) || [];
-    data.push(student);
-    localStorage.setItem("students", JSON.stringify(data));
-    document.getElementById("regForm").reset();
-    document.getElementById("regNo").value = generateRegNo();
-    document.getElementById("admissionDate").valueAsDate = new Date();
-    searchAndPaginate();
-    alert("Data submitted successfully");
+  function saveToFirebase(student){
+    let newRef = db.ref("students").push();
+    newRef.set(student, () => {
+      alert("Data submitted successfully");
+      document.getElementById("regForm").reset();
+      document.getElementById("regNo").value = generateRegNo();
+      document.getElementById("admissionDate").valueAsDate = new Date();
+    });
   }
 });
 
-// Toggle Data
+// Fetch data live
+db.ref("students").on("value", snapshot=>{
+  let data = snapshot.val() || {};
+  filteredData = Object.keys(data).map(key=>({ id:key, ...data[key] }));
+  searchAndPaginate();
+});
+
 function toggleData(){ 
   let sec=document.getElementById("dataSection");
   sec.style.display=(sec.style.display==="none"?"block":"none");
   searchAndPaginate();
 }
 
-// Search + Filter + Pagination
 function searchAndPaginate(page=1){
   currentPage=page;
-  let allData=JSON.parse(localStorage.getItem("students"))||[];
   let input=document.getElementById("search").value.toLowerCase();
   let filterCourse=document.getElementById("filterCourse").value;
   let filterHighEdu=document.getElementById("filterHighEdu").value;
-  filteredData=allData.filter(s=>{
-    let match=(s.name.toLowerCase().includes(input));
+  let data=filteredData.filter(s=>{
+    let match=s.name.toLowerCase().includes(input);
     if(filterCourse) match=match && s.course===filterCourse;
     if(filterHighEdu) match=match && s.highEdu===filterHighEdu;
     return match;
   });
-  displayPage();
+  displayPage(data);
 }
 
-function displayPage(){
+function displayPage(data){
   let container=document.getElementById("cardsContainer");
   container.innerHTML="";
   let start=(currentPage-1)*rowsPerPage;
-  let pageData=filteredData.slice(start,start+rowsPerPage);
-  let searchText=document.getElementById("search").value.toLowerCase();
+  let pageData=data.slice(start,start+rowsPerPage);
   pageData.forEach((s,i)=>{
-    let globalIndex=start+i;
     let srNo = start + i + 1;
     let card=document.createElement("div");
     card.className="card-data";
-    function highlight(text){ return searchText?text.replace(new RegExp(searchText,"gi"),m=>`<span class="highlight">${m}</span>`):text; }
-    card.innerHTML = `
+    card.innerHTML=`
       <div><b>SR No:</b> ${srNo}</div>
       <div><b>Reg:</b> ${s.regNo}</div>
-      <div><b>Title:</b> ${highlight(s.title)}</div>
-      <div><b>Name:</b> ${highlight(s.name)}</div>
-      <div><b>Father:</b> ${highlight(s.father)}</div>
-      <div><b>Mother:</b> ${highlight(s.mother)}</div>
+      <div><b>Title:</b> ${s.title}</div>
+      <div><b>Name:</b> ${s.name}</div>
+      <div><b>Father:</b> ${s.father}</div>
+      <div><b>Mother:</b> ${s.mother}</div>
       <div><b>DOB:</b> ${s.dob}</div>
       <div><b>Std Mobile:</b> ${s.stdMobile}</div>
       <div><b>Father Mobile:</b> ${s.fatherMobile}</div>
-      <div><b>Address:</b> ${highlight(s.address)}</div>
+      <div><b>Address:</b> ${s.address}</div>
       <div><b>Pin:</b> ${s.pin}</div>
       <div><b>High Edu:</b> ${s.highEdu}</div>
       <div><b>Course:</b> ${s.course}</div>
       <div><b>Admission Date:</b> ${s.admissionDate}</div>
       <div>${s.photo?'<img src="'+s.photo+'">':''}</div>
       <div class="mt-2">
-        <button class="btn btn-warning btn-sm me-1" onclick="editData(${globalIndex})"><i class="fa fa-edit"></i></button>
-        <button class="btn btn-danger btn-sm me-1" onclick="deleteData(${globalIndex})"><i class="fa fa-trash"></i></button>
-        <button class="btn btn-primary btn-sm" onclick="printData(${globalIndex})"><i class="fa fa-print"></i></button>
+        <button class="btn btn-warning btn-sm me-1" onclick="editData('${s.id}')"><i class="fa fa-edit"></i></button>
+        <button class="btn btn-danger btn-sm me-1" onclick="deleteData('${s.id}')"><i class="fa fa-trash"></i></button>
+        <button class="btn btn-primary btn-sm" onclick="printData('${s.id}')"><i class="fa fa-print"></i></button>
       </div>
     `;
     container.appendChild(card);
   });
-
-  let totalPages=Math.ceil(filteredData.length/rowsPerPage);
-  let pag=document.getElementById("pagination");
-  pag.innerHTML="";
-  if(totalPages<=1) return;
-  if(currentPage>1) pag.innerHTML+=`<button class="btn btn-primary btn-sm me-1" onclick="displayPageNum(${currentPage-1})">Prev</button>`;
-  for(let i=1;i<=totalPages;i++){
-    pag.innerHTML+=`<button class="btn ${i===currentPage?'btn-success':'btn-secondary'} btn-sm me-1" onclick="displayPageNum(${i})">${i}</button>`;
-  }
-  if(currentPage<totalPages) pag.innerHTML+=`<button class="btn btn-primary btn-sm" onclick="displayPageNum(${currentPage+1})">Next</button>`;
 }
 
-function displayPageNum(page){ currentPage=page; displayPage(); }
-function deleteData(i){ if(confirm("Delete this record?")){ let data=JSON.parse(localStorage.getItem("students"))||[]; data.splice(i,1); localStorage.setItem("students",JSON.stringify(data)); searchAndPaginate(currentPage); }}
-function printData(i){ let s=JSON.parse(localStorage.getItem("students"))[i]; let w=window.open("","Print","width=600,height=600"); w.document.write("<h2>Student Details</h2>"); for(let key in s) if(key!=='photo') w.document.write(`<p><b>${key}:</b> ${s[key]}</p>`); if(s.photo) w.document.write(`<img src="${s.photo}">`); w.print();}
-function exportCSV(){ if(filteredData.length===0){ alert("No data to export"); return; } let csv="SRNo,RegNo,Title,Name,Father,Mother,DOB,StdMobile,FatherMobile,Address,Pin,HighEdu,Course,AdmissionDate\n"; filteredData.forEach((s,i)=>{ let sr=i+1; csv+=`"${sr}","${s.regNo}","${s.title}","${s.name}","${s.father}","${s.mother}","${s.dob}","${s.stdMobile}","${s.fatherMobile}","${s.address}","${s.pin}","${s.highEdu}","${s.course}","${s.admissionDate}"\n`; }); let blob=new Blob([csv],{type:"text/csv"}); let url=URL.createObjectURL(blob); let a=document.createElement("a"); a.href=url; a.download="students.csv"; a.click(); URL.revokeObjectURL(url); }
-
-function editData(i){
-  editIndex=i;
-  let s=JSON.parse(localStorage.getItem("students"))[i];
-  ['regNo','title','name','father','mother','dob','stdMobile','fatherMobile','address','pin','highEdu','course','admissionDate'].forEach(f=>document.getElementById('e_'+f).value=s[f]);
+// Edit / Delete
+function editData(id){
+  editId=id;
+  let s = filteredData.find(x=>x.id===id);
+  ['regNo','title','name','father','mother','dob','stdMobile','fatherMobile','address','pin','highEdu','course','admissionDate'].forEach(f=>{
+    document.getElementById('e_'+f).value=s[f];
+  });
   new bootstrap.Modal(document.getElementById('editModal')).show();
 }
+
 function saveEdit(){
-  let data=JSON.parse(localStorage.getItem("students"))||[];
-  let s=data[editIndex];
-  ['title','name','father','mother','dob','stdMobile','fatherMobile','address','pin','highEdu','course','admissionDate'].forEach(f=>s[f]=document.getElementById('e_'+f).value);
+  if(!editId) return;
+  let s = {};
+  ['title','name','father','mother','dob','stdMobile','fatherMobile','address','pin','highEdu','course','admissionDate'].forEach(f=> s[f]=document.getElementById('e_'+f).value);
   let photoFile=document.getElementById('e_photo').files[0];
   if(photoFile){
     let reader=new FileReader();
-    reader.onload=function(){ s.photo=reader.result; finishEdit(); }
+    reader.onload=function(){ s.photo=reader.result; db.ref("students/"+editId).update(s); editId=null; bootstrap.Modal.getInstance(document.getElementById('editModal')).hide(); }
     reader.readAsDataURL(photoFile);
-  } else finishEdit();
-  function finishEdit(){ localStorage.setItem("students",JSON.stringify(data)); searchAndPaginate(); bootstrap.Modal.getInstance(document.getElementById('editModal')).hide(); }
+  } else { db.ref("students/"+editId).update(s); editId=null; bootstrap.Modal.getInstance(document.getElementById('editModal')).hide(); }
 }
 
-// Init display
-searchAndPaginate();
+function deleteData(id){
+  if(confirm("Delete this record?")) db.ref("students/"+id).remove();
+}
+
+// Print
+function printData(id){
+  let s = filteredData.find(x=>x.id===id);
+  if(!s) return;
+  let w = window.open("","Print","width=800,height=600");
+  w.document.write("<h2>Student Details</h2>");
+  for(let key in s){
+    if(key!=="photo" && key!=="id") w.document.write(`<p><b>${key}:</b> ${s[key]}</p>`);
+  }
+  if(s.photo) w.document.write(`<img src="${s.photo}" style="max-width:150px;max-height:150px;">`);
+  w.print();
+}
+
+// Export CSV
+function exportCSV(){
+  if(filteredData.length===0){ alert("No data to export"); return; }
+  let csv="SRNo,RegNo,Title,Name,Father,Mother,DOB,StdMobile,FatherMobile,Address,Pin,HighEdu,Course,AdmissionDate\n";
+  filteredData.forEach((s,i)=>{
+    let sr=i+1;
+    csv+=`"${sr}","${s.regNo}","${s.title}","${s.name}","${s.father}","${s.mother}","${s.dob}","${s.stdMobile}","${s.fatherMobile}","${s.address}","${s.pin}","${s.highEdu}","${s.course}","${s.admissionDate}"\n`;
+  });
+  let blob=new Blob([csv],{type:"text/csv"});
+  let url=URL.createObjectURL(blob);
+  let a=document.createElement("a");
+  a.href=url;
+  a.download="students.csv";
+  a.click();
+  URL.revokeObjectURL(url);
+}
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
